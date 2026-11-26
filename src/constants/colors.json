@@ -1,0 +1,21 @@
+{
+  "paper": "#F6F4EF",
+  "card": "#FFFFFF",
+  "ink": "#17171A",
+  "line": "#E6E2D9",
+  "muted": "#6B675F",
+  "brand": {
+    "DEFAULT": "#2F5BFF",
+    "dark": "#2447D6",
+    "soft": "#E9EEFF"
+  },
+  "success": {
+    "DEFAULT": "#067647",
+    "soft": "#ECFDF3"
+  },
+  "danger": {
+    "DEFAULT": "#B42318",
+    "soft": "#FDEDEB",
+    "line": "#F6C9C4"
+  }
+}

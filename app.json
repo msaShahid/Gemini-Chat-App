@@ -2,6 +2,7 @@
   "expo": {
     "name": "Gemini-Chat-App",
     "slug": "Gemini-Chat-App",
+    "scheme": "gemini-chat-app",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +22,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar"
+    ]
   }
 }

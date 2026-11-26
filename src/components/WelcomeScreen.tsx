@@ -1,10 +1,5 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
-
-const SUGGESTIONS = [
-  { label: 'Learn', text: 'Explain quantum computing in simple terms' },
-  { label: 'Write', text: 'Draft a polite email asking for a deadline extension' },
-  { label: 'Cook', text: 'Suggest a healthy dinner I can cook in 20 minutes' },
-];
+import { SUGGESTIONS } from '../data/suggestions';
 
 interface WelcomeScreenProps {
   onSelectSuggestion: (text: string) => void;

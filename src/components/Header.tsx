@@ -4,21 +4,39 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 interface HeaderProps {
   onNewChat: () => void;
   newChatDisabled: boolean;
+  /** When provided, a back button is shown before the logo (used when chat is a pushed screen). */
+  onBack?: () => void;
 }
 
-export function Header({ onNewChat, newChatDisabled }: HeaderProps) {
+export function Header({ onNewChat, newChatDisabled, onBack }: HeaderProps) {
   const insets = useSafeAreaInsets();
 
   return (
     <View className="border-b border-line bg-paper" style={{ paddingTop: insets.top }}>
-      <View className="w-full max-w-3xl flex-row items-center justify-between self-center px-5 py-3">
-        <View className="flex-row items-center gap-3">
+      <View className="w-full max-w-3xl flex-row items-center justify-between gap-3 self-center px-5 py-3">
+        {/* flex-1 + shrink lets the title truncate instead of pushing "New chat" off-screen. */}
+        <View className={`flex-1 shrink flex-row items-center ${onBack ? 'gap-2.5' : 'gap-3'}`}>
+          {onBack ? (
+            <Pressable
+              onPress={onBack}
+              accessibilityRole="button"
+              accessibilityLabel="Go back"
+              hitSlop={8}
+              className="-ml-1 h-10 w-10 items-center justify-center rounded-full border border-line bg-card active:opacity-60"
+            >
+              <Text className="text-lg font-semibold text-ink">←</Text>
+            </Pressable>
+          ) : null}
           <View className="h-10 w-10 items-center justify-center rounded-2xl bg-brand">
             <Text className="text-lg font-bold text-white">G</Text>
           </View>
-          <View>
-            <Text className="text-lg font-bold tracking-tight text-ink">Gemini Chat</Text>
-            <Text className="text-xs text-muted">Powered by Google Gemini</Text>
+          <View className="flex-1 shrink">
+            <Text numberOfLines={1} className="text-lg font-bold tracking-tight text-ink">
+              Gemini Chat
+            </Text>
+            <Text numberOfLines={1} className="text-xs text-muted">
+              Powered by Google Gemini
+            </Text>
           </View>
         </View>
 

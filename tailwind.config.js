@@ -1,27 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./App.tsx', './src/**/*.{js,jsx,ts,tsx}'],
+  // Every file that uses `className` must be listed, including shared components in src/.
+  content: ['./App.tsx', './app/**/*.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
-      // Design tokens: change a colour here and it updates everywhere.
-      colors: {
-        paper: '#F6F4EF', // app background (warm off-white)
-        card: '#FFFFFF', // raised surfaces: AI bubbles, input, cards
-        ink: '#17171A', // primary text
-        line: '#E6E2D9', // borders and dividers
-        muted: '#6B675F', // secondary text
-        brand: {
-          DEFAULT: '#2F5BFF', // user bubbles, send button, accents
-          dark: '#2447D6',
-          soft: '#E9EEFF',
-        },
-        danger: {
-          DEFAULT: '#B42318',
-          soft: '#FDEDEB',
-          line: '#F6C9C4',
-        },
-      },
+      // Design tokens: change a colour in src/constants/colors.json and it updates
+      // everywhere, including the tab bar (which needs raw colour values).
+      //   paper   app background (warm off-white)
+      //   card    raised surfaces: AI bubbles, input, cards
+      //   ink     primary text
+      //   line    borders and dividers
+      //   muted   secondary text
+      //   brand   user bubbles, send button, accents
+      //   success positive trends, "connected" states
+      //   danger  errors
+      colors: require('./src/constants/colors.json'),
     },
   },
   plugins: [],
