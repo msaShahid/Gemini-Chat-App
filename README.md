@@ -1,3 +1,7 @@
+I've updated your README structure and added a complete Generate a New APK section with Windows PowerShell commands, build instructions, APK output location, and installation steps.
+
+Writing
+
 # Gemini Chat
 
 A simple, clean AI chat app built with **React Native**, **Expo** and **TypeScript**, powered by the **Google Gemini API**. It uses only built-in React Native components and the built-in `fetch()` API, with no extra libraries and no navigation packages.
@@ -28,11 +32,15 @@ A simple, clean AI chat app built with **React Native**, **Expo** and **TypeScri
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (LTS)
-- The [Expo Go](https://expo.dev/go) app on your phone, or an Android emulator / iOS simulator
-- A free Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey)
+- [Node.js](<https://nodejs.org/>) (LTS)
+- [Android Studio](<https://developer.android.com/studio>) (for local Android APK builds)
+- Android SDK and Android NDK
+- The [Expo Go](<https://expo.dev/go>) app on your phone, or an Android emulator / iOS simulator
+- A free Gemini API key from [Google AI Studio](<https://aistudio.google.com/apikey>)
 
 ### Install and run
+
+bash
 
 ```bash
 git clone https://github.com/msaShahid/Gemini-Chat-App.git
@@ -42,47 +50,198 @@ npm install
 
 ### Add your API key
 
-1. Copy the example file to a new file named `.env.local` in the project root:
-
+1. Copy the example file to a new file named `.env.local` in the project root:**macOS / Linux:**
+   bash
    ```bash
-   # macOS / Linux
    cp .env.example .env.local
-
-   # Windows (PowerShell)
+   ```
+   **Windows (PowerShell):**
+   powershell
+   ```powershell
    Copy-Item .env.example .env.local
    ```
-
-2. Open `.env.local` and paste your key. Use no quotes and no spaces:
-
-   ```
+2. Open `.env.local` and paste your key. Use no quotes and no spaces:env
+   ```env
    EXPO_PUBLIC_GEMINI_API_KEY=your_real_key_here
    ```
-
-3. (Optional) Choose a different Gemini model:
-
-   ```
+3. (Optional) Choose a different Gemini model:env
+   ```env
    EXPO_PUBLIC_GEMINI_MODEL=gemini-3.5-flash-lite
    ```
-
    If this line is left out, the app uses `gemini-3.8-flash`.
 
 `.env.local` is listed in `.gitignore`, so your key is not committed. **Never commit your real key.**
 
 ### Start the app
 
+bash
+
 ```bash
 npx expo start
 ```
 
-Scan the QR code with Expo Go, or press `a` (Android) or `i` (iOS simulator). After changing `.env.local`, restart with a cleared cache:
+Scan the QR code with Expo Go, or press `a` (Android) or `i` (iOS simulator).
+
+After changing `.env.local`, restart with a cleared cache:
+
+bash
 
 ```bash
 npx expo start -c
 ```
 
+---
+
+## Generate a new Android APK
+
+You can generate a release APK locally using Android Studio's Android SDK and Gradle.
+
+### Prerequisites
+
+Make sure you have:
+
+- Android Studio installed
+- Android SDK installed
+- Android NDK `27.1.12297006`
+- Java configured through Android Studio or Gradle
+
+### Step 1. Install project dependencies
+
+From the project root:
+
+bash
+
+```bash
+npm install
+```
+
+### Step 2. Generate Android native project
+
+If the `android` directory does not exist, generate it using:
+
+bash
+
+```bash
+npx expo prebuild --platform android
+```
+
+If you have already generated and configured your Android project, you can skip this step.
+
+**Note:** Running prebuild on an existing Android project can modify native files. Back up your native configuration before regenerating it.
+
+### Step 3. Open the Android directory
+
+**Windows (PowerShell):**
+
+powershell
+
+```powershell
+cd android
+```
+
+**macOS / Linux:**
+
+bash
+
+```bash
+cd android
+```
+
+### Step 4. Clean the previous build
+
+**Windows:**
+
+powershell
+
+```powershell
+.\gradlew clean
+```
+
+**macOS / Linux:**
+
+bash
+
+```bash
+./gradlew clean
+```
+
+### Step 5. Generate the release APK
+
+**Windows (PowerShell):**
+
+powershell
+
+```powershell
+.\gradlew assembleRelease
+```
+
+**macOS / Linux:**
+
+bash
+
+```bash
+./gradlew assembleRelease
+```
+
+Wait until Gradle finishes building the application.
+
+A successful build displays:
+
+text
+
+```text
+BUILD SUCCESSFUL
+```
+
+### Step 6. Find your APK
+
+After the build completes, your APK will be generated at:
+
+text
+
+```text
+android/app/build/outputs/apk/release/app-release.apk
+```
+
+On Windows, the full path will look like:
+
+text
+
+```text
+D:\Shahid\2026\my-app\android\app\build\outputs\apk\release\app-release.apk
+```
+
+### Step 7. Install the APK on your Android phone
+
+1. Transfer `app-release.apk` to your Android phone.
+2. Open the APK file.
+3. Allow installation from this source if Android asks.
+4. Tap **Install**.
+5. Open Gemini Chat.
+
+Your new Android release APK is ready\!
+
+### Generate APK again after code changes
+
+Whenever you update your application and want a new APK, run:
+
+powershell
+
+```powershell
+cd D:\Shahid\2026\my-app\android
+
+.\gradlew assembleRelease
+```
+
+The newly generated APK will replace the previous APK at the same output location.
+
+---
+
 ## Project structure
 
-```
+text
+
+```text
 App.tsx                       Main screen: header, message list, input
 index.ts                      Expo entry point
 src/
@@ -116,10 +275,14 @@ src/
 | "API key is not valid" | Re-copy the key from AI Studio. Make sure there are no quotes, spaces or leftover placeholder text. |
 | "Gemini is temporarily unavailable" (503) | The model is busy. Wait and try again, or set `EXPO_PUBLIC_GEMINI_MODEL=gemini-3.5-flash-lite`. |
 | "Too many requests" (429) | You hit the free-tier rate limit. Wait a minute and try again. |
-| "Model was not found" | Check the model name in `.env.local` against Google's [models list](https://ai.google.dev/gemini-api/docs/models). |
+| "Model was not found" | Check the model name in `.env.local` against Google's [models list](<https://ai.google.dev/gemini-api/docs/models>). |
 | Input or header sits too high or low | Adjust the `safeArea` values in `src/theme.ts`. |
+| NDK missing `source.properties` | Reinstall Android NDK `27.1.12297006` through Android Studio SDK Manager. |
+| Gradle build fails | Run `.\gradlew clean` and then `.\gradlew assembleRelease` from the Android directory. |
 
 Check types any time with:
+
+bash
 
 ```bash
 npx tsc --noEmit
@@ -129,6 +292,3 @@ npx tsc --noEmit
 
 Variables starting with `EXPO_PUBLIC_` are bundled into the app, so anyone who has the app can extract the key. This setup is fine for learning and personal projects. For a published app, send requests through your own backend and keep the key on the server.
 
-## License
-
-See the [LICENSE](LICENSE) file.
