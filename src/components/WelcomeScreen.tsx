@@ -1,10 +1,9 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { colors, radius, spacing } from '../theme';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 
 const SUGGESTIONS = [
-  'Explain quantum computing in simple terms',
-  'Draft a polite email asking for a deadline extension',
-  'Suggest a healthy dinner I can cook in 20 minutes',
+  { label: 'Learn', text: 'Explain quantum computing in simple terms' },
+  { label: 'Write', text: 'Draft a polite email asking for a deadline extension' },
+  { label: 'Cook', text: 'Suggest a healthy dinner I can cook in 20 minutes' },
 ];
 
 interface WelcomeScreenProps {
@@ -14,91 +13,40 @@ interface WelcomeScreenProps {
 export function WelcomeScreen({ onSelectSuggestion }: WelcomeScreenProps) {
   return (
     <ScrollView
-      style={styles.scroll}
-      contentContainerStyle={styles.content}
+      className="flex-1"
+      contentContainerClassName="w-full max-w-3xl grow justify-center self-center px-5 py-8"
       keyboardShouldPersistTaps="handled"
     >
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>AI</Text>
+      <View className="mb-6 h-16 w-16 items-center justify-center rounded-3xl bg-brand">
+        <Text className="text-3xl font-bold text-white">G</Text>
       </View>
-      <Text style={styles.title}>How can I help today?</Text>
-      <Text style={styles.subtitle}>
-        Ask me anything. Answers come from Google Gemini and I remember this conversation until you
+
+      <Text className="text-3xl font-bold leading-9 tracking-tight text-ink">
+        What can I help you with?
+      </Text>
+      <Text className="mt-2 text-base leading-6 text-muted">
+        Ask anything. Answers come from Google Gemini, and I remember this conversation until you
         start a new chat.
       </Text>
 
-      <View style={styles.suggestions}>
+      <View className="mt-8 gap-3">
         {SUGGESTIONS.map((suggestion) => (
-          <TouchableOpacity
-            key={suggestion}
-            style={styles.suggestion}
-            onPress={() => onSelectSuggestion(suggestion)}
+          <Pressable
+            key={suggestion.text}
+            onPress={() => onSelectSuggestion(suggestion.text)}
             accessibilityRole="button"
+            className="flex-row items-center gap-3 rounded-2xl border border-line bg-card p-4 active:bg-brand-soft"
           >
-            <Text style={styles.suggestionText}>{suggestion}</Text>
-          </TouchableOpacity>
+            <View className="flex-1">
+              <Text className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-brand">
+                {suggestion.label}
+              </Text>
+              <Text className="text-base leading-6 text-ink">{suggestion.text}</Text>
+            </View>
+            <Text className="text-lg text-muted">→</Text>
+          </Pressable>
         ))}
       </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-  },
-  content: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.xl,
-  },
-  badge: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.accent,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.lg,
-  },
-  badgeText: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.onAccent,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: colors.text,
-    textAlign: 'center',
-  },
-  subtitle: {
-    marginTop: spacing.sm,
-    fontSize: 15,
-    lineHeight: 22,
-    color: colors.textMuted,
-    textAlign: 'center',
-    maxWidth: 420,
-  },
-  suggestions: {
-    marginTop: spacing.xl,
-    width: '100%',
-    maxWidth: 420,
-    gap: spacing.sm,
-  },
-  suggestion: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radius.bubble,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.background,
-  },
-  suggestionText: {
-    fontSize: 15,
-    lineHeight: 21,
-    color: colors.text,
-  },
-});

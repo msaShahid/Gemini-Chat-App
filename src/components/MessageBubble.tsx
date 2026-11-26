@@ -1,58 +1,33 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import type { ChatMessage } from '../types/chat';
-import { colors, radius, spacing } from '../theme';
 
 interface MessageBubbleProps {
   message: ChatMessage;
 }
 
 export function MessageBubble({ message }: MessageBubbleProps) {
-  const isUser = message.role === 'user';
+  if (message.role === 'user') {
+    return (
+      <View className="mb-4 flex-row justify-end pl-12">
+        <View className="shrink rounded-3xl rounded-br-md bg-brand px-4 py-3">
+          <Text selectable className="text-base leading-6 text-white">
+            {message.text}
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
-    <View style={[styles.row, isUser ? styles.rowUser : styles.rowModel]}>
-      <View style={[styles.bubble, isUser ? styles.bubbleUser : styles.bubbleModel]}>
-        <Text selectable style={[styles.text, isUser ? styles.textUser : styles.textModel]}>
+    <View className="mb-4 flex-row items-end gap-2.5 pr-10">
+      <View className="h-8 w-8 items-center justify-center rounded-full bg-brand-soft">
+        <Text className="text-xs font-bold text-brand">G</Text>
+      </View>
+      <View className="shrink rounded-3xl rounded-bl-md border border-line bg-card px-4 py-3">
+        <Text selectable className="text-base leading-6 text-ink">
           {message.text}
         </Text>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    marginBottom: spacing.md,
-  },
-  rowUser: {
-    justifyContent: 'flex-end',
-  },
-  rowModel: {
-    justifyContent: 'flex-start',
-  },
-  bubble: {
-    maxWidth: '85%',
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radius.bubble,
-  },
-  bubbleUser: {
-    backgroundColor: colors.accent,
-    borderBottomRightRadius: 6,
-  },
-  bubbleModel: {
-    backgroundColor: colors.surface,
-    borderBottomLeftRadius: 6,
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 23,
-  },
-  textUser: {
-    color: colors.onAccent,
-  },
-  textModel: {
-    color: colors.text,
-  },
-});
