@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import type { ReactNode } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface ScreenProps {
@@ -10,6 +10,8 @@ interface ScreenProps {
   headerRight?: ReactNode;
   /** Small text shown above the title (e.g. a greeting or date). */
   eyebrow?: string;
+  /** When provided, a back button is shown above the title (used for pushed screens). */
+  onBack?: () => void;
   children: ReactNode;
 }
 
@@ -18,7 +20,7 @@ interface ScreenProps {
  * with a max width so it looks right on phones, tablets and the web.
  * Uses the same paper background and max-w-3xl column as the chat screen.
  */
-export function Screen({ title, subtitle, headerRight, eyebrow, children }: ScreenProps) {
+export function Screen({ title, subtitle, headerRight, eyebrow, onBack, children }: ScreenProps) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -30,6 +32,18 @@ export function Screen({ title, subtitle, headerRight, eyebrow, children }: Scre
         contentContainerStyle={{ paddingTop: insets.top + 16 }}
         showsVerticalScrollIndicator={false}
       >
+        {onBack ? (
+          <Pressable
+            onPress={onBack}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+            hitSlop={8}
+            className="mb-4 h-10 w-10 items-center justify-center rounded-full border border-line bg-card active:opacity-60"
+          >
+            <Text className="text-lg font-semibold text-ink">←</Text>
+          </Pressable>
+        ) : null}
+
         <View className="mb-6 flex-row items-center justify-between gap-4">
           <View className="flex-1">
             {eyebrow ? (

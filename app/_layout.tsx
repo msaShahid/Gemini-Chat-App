@@ -25,6 +25,8 @@ export default function RootLayout() {
       >
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="chat" />
+        {/* Dynamic route: app/conversation/[id].tsx -> /conversation/1, /conversation/2, ... */}
+        <Stack.Screen name="conversation/[id]" />
       </Stack>
     </ChatProvider>
   );

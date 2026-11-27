@@ -137,6 +137,10 @@ export default function DashboardScreen() {
               title={item.title}
               subtitle={item.detail}
               value={item.time}
+              onPress={() =>
+                router.push({ pathname: '/conversation/[id]', params: { id: item.id } })
+              }
+              accessibilityHint="Opens the conversation details"
               divider={index < RECENT_ACTIVITY.length - 1}
             />
           ))}
